@@ -1,12 +1,13 @@
 {{ define "main" }}
 <div class="container" role="main">
   <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <article role="main" class="blog-post">
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+      <article role="main" class="blog-post mb-4">
         {{ .Content }}
 
         {{ if .Params.tags }}
           <div class="blog-tags">
+            <i class="fa fa-tags" aria-hidden="true"></i> Tags:
             {{ range .Params.tags }}
               <a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
             {{ end }}
@@ -40,26 +41,48 @@
         {{ end }}
       </article>
 
+      {{ if .Site.Params.formspree }}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3>Sign up for more</h3>
+          <p>Get it straight in your inbox.</p>
+          <form method="POST" action="https://formspree.io/{{ .Site.Params.formspree }}">
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="email" class="bmd-label-floating">Email address</label>
+                <input class="form-control" name="email" type="email" id="email" />
+              </div>
+              <div class="col-auto d-flex align-items-end">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary btn-raised" type="submit">Sign up</button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {{ end }}
+
       {{ if ne .Type "page" }}
-        <ul class="pager blog-pager">
-          {{ if .PrevInSection }}
-            <li class="previous">
-              <a href="{{ .PrevInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .PrevInSection.Title }}">&larr; {{ i18n "previousPost" }}</a>
-            </li>
-          {{ end }}
-          {{ if .NextInSection }}
-            <li class="next">
-              <a href="{{ .NextInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .NextInSection.Title }}">{{ i18n "nextPost" }} &rarr;</a>
-            </li>
-          {{ end }}
-        </ul>
+      <div class="btn-toolbar d-flex mb-4" role="toolbar">
+        {{ if .PrevInSection }}
+        <div class="btn-group mr-auto" role="group">
+          <a class="btn btn-secondary btn-raised" href="{{ .PrevInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .PrevInSection.Title }}">&larr; {{ i18n "previousPost" }}</a>
+        </div>
+        {{ end }}
+        {{ if .NextInSection }}
+        <div class="btn-group ml-auto" role="group">
+          <a class="btn btn-primary btn-raised" href="{{ .NextInSection.Permalink }}" data-toggle="tooltip" data-placement="top" title="{{ .NextInSection.Title }}">{{ i18n "nextPost" }} &rarr;</a>
+        </div>
+        {{ end }}
+      </div>
       {{ end }}
 
 
       {{ if (.Params.comments) | or (and (or (not (isset .Params "comments")) (eq .Params.comments nil)) (and .Site.Params.comments (ne .Type "page"))) }}
         {{ if .Site.DisqusShortname }}
           {{ if .Site.Params.delayDisqus }}
-          <div class="disqus-comments">                  
+          <div class="disqus-comments mb-4">                  
             <button id="show-comments" class="btn btn-default" type="button">{{ i18n "show" }} <span class="disqus-comment-count" data-disqus-url="{{ trim .Permalink "/" }}">{{ i18n "comments" }}</span></button>
             <div id="disqus_thread"></div>
 
@@ -71,13 +94,13 @@
           </script>
           </div>
           {{ else }}
-          <div class="disqus-comments">
+          <div class="disqus-comments mb-4">
             {{ template "_internal/disqus.html" . }}
           </div>
           {{ end }}
         {{ end }}
         {{ if .Site.Params.staticman }}
-          <div class="staticman-comments">
+          <div class="staticman-comments mb-4">
             {{ partial "staticman-comments.html" . }}
           </div>
         {{ end }}

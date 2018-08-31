@@ -1,39 +1,44 @@
-<article class="post-preview">
-    <a href="{{ .Permalink }}">
-        <h2 class="post-title">{{ .Title }}</h2>
-        {{ if .Params.subtitle }}
-        <h3 class="post-subtitle">
-            {{ .Params.subtitle }}
-        </h3>
+<article>
+    <div class="card my-4">
+        {{ with .Params.image }}
+        <img src="{{ .Params.image }}" alt="{{ .Title }}" class="card-image-top" />
         {{ end }}
-        {{ if .Params.image }}
-        <img src="{{ .Params.image }}" alt="{{ .Title }}" class="img-title" />
-        {{ end }}
-        {{ if .Params.video }}
-        <video loop autoplay muted playsinline class="img-title">
-            <source src="{{ .Params.video }}">
-        </video>
-        {{ end }}
-    </a>
+        <div class="card-body">
+            <a href="{{ .Permalink }}">
+                <h3 class="post-title">{{ .Title }}</h3>
+                {{ if .Params.subtitle }}
+                <h4 class="post-subtitle">
+                    {{ .Params.subtitle }}
+                </h4>
+                {{ end }}
+                {{ if .Params.video }}
+                <video loop autoplay muted playsinline class="img-title">
+                    <source src="{{ .Params.video }}">
+                </video>
+                {{ end }}
+            </a>
+    
+            <p class="card-text">
+                <small class="text-muted">
+                    {{ partial "post_meta.html" . }}
+                </small>
+            </p>
 
-    <p class="post-meta">
-        {{ partial "post_meta.html" . }}
-    </p>
-    <div class="post-entry">
-        {{ if .Truncated }}
-        {{ .Summary }}
-        <a href="{{ .Permalink }}" class="post-read-more">[{{ i18n "readMore" }}]</a>
-        {{ else }}
-        {{ .Content }}
+            {{ if .Truncated }}
+            <p class="card-text">{{ .Summary }}</p>
+            <a href="{{ .Permalink }}" class="btn btn-primary">{{ i18n "readMore" }}</a>
+            {{ else }}
+            <p class="card-text">{{ .Content }}</p>
+            {{ end }}
+        </div>
+    
+        {{ if .Params.tags }}
+        <div class="blog-tags text-muted card-footer">
+            <i class="fa fa-tags" aria-hidden="true"></i>
+            {{ range .Params.tags }}
+            <a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
+            {{ end }}
+        </div>
         {{ end }}
     </div>
-
-    {{ if .Params.tags }}
-    <div class="blog-tags">
-        {{ range .Params.tags }}
-        <a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
-        {{ end }}
-    </div>
-    {{ end }}
-
 </article>
