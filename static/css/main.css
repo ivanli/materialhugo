@@ -60,12 +60,12 @@ div.panel-body a.list-group-item.view-all {
 ::-moz-selection {
   color: white;
   text-shadow: none;
-  background: #0085a1;
+  background: #EE3F3F;
 }
 ::selection {
   color: white;
   text-shadow: none;
-  background: #0085a1;
+  background: #EE3F3F;
 }
 img::selection {
   color: white;
