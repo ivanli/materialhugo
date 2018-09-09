@@ -1,0 +1,22 @@
+<div class="card">
+  {{- with .Get "img-top" -}}
+  <img class="card-img-top" src="{{.}}" />
+  {{- end -}}
+  <div class="card-body">
+    {{ with .Get "title" }}
+    <h5 class="card-title">{{.}}</h5>
+    {{ end }}
+    {{ with .Get "subtitle" }}
+    <h6 class="card-subtitle mb-2 text-muted">{{.}}</h6>
+    {{ end }}
+    {{ with .Inner }}
+    <p class="card-text">{{.}}</p>
+    {{ end }}
+    {{ if and (.Get "primary-link") (.Get "primary-link-text") }}
+    <a href="{{ .Get "primary-link" }}" class="btn btn-primary btn-raised">{{ .Get "primary-link-text" }}</a>
+    {{ end }}
+    {{ with .Get "secondary-link" }}
+    <a href="{{.}}" class="btn btn-secondary">{{ .Get "secondary-link-text" }}</a>
+    {{ end }}
+  </div>
+</div>
