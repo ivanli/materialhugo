@@ -1,0 +1,28 @@
+{
+  "name": "materialhugo",
+  "version": "0.0.1",
+  "description": "Hugo theme based on BeautifulHugo with material design",
+  "main": "index.js",
+  "repository": "https://github.com/ivanli/materialhugo.git",
+  "author": "Ivan Li <ivankyli@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "yarn run build:js && yarn run build:css && yarn run build:css-min",
+    "build:js": "cpx node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js static/js",
+    "build:css": "node-sass --importer=node_modules/node-sass-tilde-importer scss/theme.scss  static/css/bootstrap-material-design.css",
+    "build:css-min": "cssnano static/css/bootstrap-material-design.css static/css/bootstrap-material-design.min.css",
+    "watch": "concurrently --kill-others --names \"js,css\" \"yarn run watch:js\" \"yarn run watch:css\"",
+    "watch:js": "yarn run build:js -- --watch",
+    "watch:css": "yarn run build:css && yarn run build:css-min -- --watch"
+  },
+  "devDependencies": {
+    "bootstrap-material-design": "^4.1.2",
+    "bootstrap": "^4.3.1",
+    "concurrently": "^5.2.0",
+    "cpx": "^1.5.0",
+    "cssnano-cli": "^1.0.5",
+    "node-sass": "^4.12.0",
+    "node-sass-tilde-importer": "^1.0.2"
+  }
+}
